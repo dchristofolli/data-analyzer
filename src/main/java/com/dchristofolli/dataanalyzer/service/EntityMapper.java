@@ -1,8 +1,8 @@
 package com.dchristofolli.dataanalyzer.service;
 
-import com.dchristofolli.dataanalyzer.dto.Customer;
-import com.dchristofolli.dataanalyzer.dto.Item;
-import com.dchristofolli.dataanalyzer.dto.Salesman;
+import com.dchristofolli.dataanalyzer.dto.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,22 +11,33 @@ import java.util.List;
 
 @Component
 public class EntityMapper {
-    public Object mapToEntity(String line) {
+    private final Logger logger = LoggerFactory.getLogger(EntityMapper.class);
+
+    public SaleDataInput mapToEntity(String line) {
+        SaleDataInput saleDataInput = new SaleDataInput();
         String type = dataTypeChecker(line);
-        Object object = new Object();
         if (type.equals("001")) {
-            object = createSalesman(line);
+            saleDataInput = SaleDataInputBuilder
+                .aSaleDataInput()
+                .withSalesman(createSalesman(line))
+                .build();
         }
         if (type.equals("002")) {
-            object = createCustomer(line);
+            saleDataInput = SaleDataInputBuilder
+                .aSaleDataInput()
+                .withCustomer(createCustomer(line))
+                .build();
         }
         if (type.equals("003")) {
-            object = createItems(line);
+            saleDataInput = SaleDataInputBuilder
+                .aSaleDataInput()
+                .withSale(createSale(line))
+                .build();
         }
-        return object;
+        return saleDataInput;
     }
 
-    private Customer createCustomer(String line) {
+    public Customer createCustomer(String line) {
         int lastIndexOfSeparator = line.lastIndexOf('ç');
         String cnpj = line.substring(4, 20);
         String name = line.substring(21, lastIndexOfSeparator);
@@ -34,7 +45,7 @@ public class EntityMapper {
         return new Customer(cnpj, name, businessArea);
     }
 
-    private Salesman createSalesman(String line) {
+    public Salesman createSalesman(String line) {
         int lastIndexOfSeparator = line.lastIndexOf('ç');
         String cpf = line.substring(4, 17);
         String name = line.substring(18, lastIndexOfSeparator);
@@ -42,12 +53,14 @@ public class EntityMapper {
         return new Salesman(cpf, name, salary);
     }
 
-    private String dataTypeChecker(String data) {
+    public String dataTypeChecker(String data) {
         return data.substring(0, 3);
     }
 
-    private List<Item> createItems(String line) {
+    public Sale createSale(String line) {
         List<Item> itemList = new ArrayList<>();
+        String saleId = line.substring(line.indexOf('ç'), line.indexOf('ç'));
+        String salesman = line.substring(line.lastIndexOf('ç'));
         String value = line.substring(line.indexOf('[') + 1, line.lastIndexOf(']'));
         String[] items = value.split(",");
         Arrays.stream(items)
@@ -57,6 +70,10 @@ public class EntityMapper {
                 double price = Double.parseDouble(s.substring(s.lastIndexOf('-') + 1));
                 itemList.add(new Item(id, quantity, price));
             });
-        return itemList;
+        double total = itemList.stream()
+            .mapToDouble(item -> item.getQuantity() * item.getPrice()).sum();
+        Sale sale = new Sale(saleId, itemList, salesman, total);
+        logger.info(sale.toString());
+        return sale;
     }
 }

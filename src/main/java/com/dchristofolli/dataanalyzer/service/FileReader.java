@@ -1,8 +1,8 @@
 package com.dchristofolli.dataanalyzer.service;
 
+import com.dchristofolli.dataanalyzer.dto.SaleDataInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-@EnableScheduling
 public class FileReader {
     private final Logger logger = LoggerFactory.getLogger(FileReader.class);
     private final String homePath = System.getProperty("user.home");
@@ -26,7 +25,6 @@ public class FileReader {
         this.entityMapper = entityMapper;
     }
 
-    //    @Scheduled(fixedDelay = 1000)
     @PostConstruct
     public void run() {
         File inputPath = new File(String.valueOf(Path.of(
@@ -37,30 +35,28 @@ public class FileReader {
         findFiles(inputPath);
     }
 
-    public List<Object> findFiles(File structure) {
-        List<Object> objects = new ArrayList<>();
+    public void findFiles(File structure) {
         for (File file : Objects.requireNonNull(structure.listFiles())) {
             if (file.isDirectory())
                 findFiles(file);
             else {
                 if (file.getName().endsWith(".dat")) {
-                    objects.add(readFile(file));
+                    readFile(file);
                 }
             }
         }
-        return objects;
     }
 
-    private List<Object> readFile(File file) {
-        List<Object> list = new ArrayList<>();
+    public List<SaleDataInput> readFile(File file) {
+        List<SaleDataInput> saleDataInputs = new ArrayList<>();
         try {
             List<String> allLines = Files.readAllLines(Paths.get(file.getAbsolutePath()));
             allLines.parallelStream()
-                .forEach(s -> list.add(entityMapper.mapToEntity(s)));
+                .forEach(line -> saleDataInputs.add(entityMapper.mapToEntity(line)));
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-        logger.info("{}\n{} read lines", list.toString(), list.size());
-        return list;
+        saleDataInputs.forEach(saleDataInput -> logger.info(saleDataInput.toString()));
+        return saleDataInputs;
     }
 }

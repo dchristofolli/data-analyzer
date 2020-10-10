@@ -1,9 +1,12 @@
 package com.dchristofolli.dataanalyzer.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Salesman {
-    private String cpf;
-    private String name;
-    private double salary;
+    private final String cpf;
+    private final String name;
+    private final double salary;
 
     public Salesman(String cpf, String name, double salary) {
         this.cpf = cpf;
@@ -18,29 +21,5 @@ public class Salesman {
             ", name='" + name + '\'' +
             ", salary=" + salary +
             '}';
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
     }
 }
