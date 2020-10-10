@@ -1,75 +1,29 @@
-package com.dchristofolli.dataanalyzer.reader;
+package com.dchristofolli.dataanalyzer.service;
 
 import com.dchristofolli.dataanalyzer.dto.Customer;
 import com.dchristofolli.dataanalyzer.dto.Item;
 import com.dchristofolli.dataanalyzer.dto.Salesman;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Component
-@EnableScheduling
-public class FileReader {
-    private final Logger logger = LoggerFactory.getLogger(FileReader.class);
-    private final String homePath = System.getProperty("user.home");
-
-    //    @Scheduled(fixedDelay = 1000)
-    @PostConstruct
-    public void run() {
-        File file = new File(String.valueOf(Path.of(
-            homePath,
-            "data",
-            "in"
-        )));
-        findFilesInFolderAndSubFolders(file);
-    }
-
-    private void findFilesInFolderAndSubFolders(File structure) {
-        for (File file : Objects.requireNonNull(structure.listFiles())) {
-            if (file.isDirectory())
-                findFilesInFolderAndSubFolders(file);
-            else {
-                if (file.getName().endsWith(".dat"))
-                    readFile(file);
-            }
-        }
-    }
-
-    private void readFile(File file) {
-        try {
-            List<String> allLines = Files.readAllLines(Paths.get(file.getAbsolutePath()));
-            allLines.parallelStream()
-                .forEach(this::mapToObject);
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    private void mapToObject(String line) {
+public class EntityMapper {
+    public Object mapToEntity(String line) {
         String type = dataTypeChecker(line);
-        List<Object> list = new ArrayList<>();
+        Object object = new Object();
         if (type.equals("001")) {
-            list.add(createSalesman(line));
+            object = createSalesman(line);
         }
         if (type.equals("002")) {
-            list.add(createCustomer(line));
+            object = createCustomer(line);
         }
         if (type.equals("003")) {
-            list.add(createItems(line));
+            object = createItems(line);
         }
-        list.forEach(o -> logger.info(o.toString()));
+        return object;
     }
 
     private Customer createCustomer(String line) {
@@ -105,5 +59,4 @@ public class FileReader {
             });
         return itemList;
     }
-
 }
