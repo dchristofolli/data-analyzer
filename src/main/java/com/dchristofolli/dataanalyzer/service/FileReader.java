@@ -12,20 +12,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 @Component
 public class FileReader {
     private final Logger logger = LoggerFactory.getLogger(FileReader.class);
-    private final String homePath = System.getProperty("user.home");
     private final EntityMapper entityMapper;
+    private final String homePath = System.getProperty("user.home");
 
     public FileReader(EntityMapper entityMapper) {
         this.entityMapper = entityMapper;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void run() {
         File inputPath = new File(String.valueOf(Path.of(
             homePath,
@@ -35,16 +36,17 @@ public class FileReader {
         findFiles(inputPath);
     }
 
-    public void findFiles(File structure) {
+    public List<SaleDataInput> findFiles(File structure) {
         for (File file : Objects.requireNonNull(structure.listFiles())) {
             if (file.isDirectory())
                 findFiles(file);
             else {
                 if (file.getName().endsWith(".dat")) {
-                    readFile(file);
+                    return readFile(file);
                 }
             }
         }
+        return Collections.emptyList();
     }
 
     public List<SaleDataInput> readFile(File file) {

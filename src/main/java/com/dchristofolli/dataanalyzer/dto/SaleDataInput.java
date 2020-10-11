@@ -8,9 +8,6 @@ public class SaleDataInput {
     private Customer customer;
     private Sale sale;
 
-    public SaleDataInput() {
-    }
-
     @Override
     public String toString() {
         return "SaleDataInput{" +

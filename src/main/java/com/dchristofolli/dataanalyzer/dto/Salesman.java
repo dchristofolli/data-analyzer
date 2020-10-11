@@ -4,14 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Salesman {
-    private final String cpf;
-    private final String name;
-    private final double salary;
+    private String cpf;
+    private String name;
+    private double salary;
 
     public Salesman(String cpf, String name, double salary) {
         this.cpf = cpf;
         this.name = name;
         this.salary = salary;
+    }
+
+    public Salesman() {
     }
 
     @Override
@@ -21,5 +24,9 @@ public class Salesman {
             ", name='" + name + '\'' +
             ", salary=" + salary +
             '}';
+    }
+
+    public String getName() {
+        return name;
     }
 }

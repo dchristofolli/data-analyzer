@@ -59,8 +59,8 @@ public class EntityMapper {
 
     public Sale createSale(String line) {
         List<Item> itemList = new ArrayList<>();
-        String saleId = line.substring(line.indexOf('ç'), line.indexOf('ç'));
-        String salesman = line.substring(line.lastIndexOf('ç'));
+        String saleId = line.substring(line.indexOf('ç') + 1, line.indexOf('[') - 1);
+        String salesman = line.substring(line.lastIndexOf('ç') +1 );
         String value = line.substring(line.indexOf('[') + 1, line.lastIndexOf(']'));
         String[] items = value.split(",");
         Arrays.stream(items)
