@@ -16,6 +16,16 @@ public class LineModel {
         this.sale = sale;
     }
 
+    @Override
+    public String toString() {
+        return "LineModel{" +
+            "fileName='" + fileName + '\'' +
+            ", salesman=" + salesman +
+            ", customer=" + customer +
+            ", sale=" + sale +
+            '}';
+    }
+
     public Salesman getSalesman() {
         return salesman;
     }

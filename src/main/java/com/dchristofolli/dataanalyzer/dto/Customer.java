@@ -22,4 +22,8 @@ public class Customer {
             ", businessAreaName='" + businessAreaName + '\'' +
             '}';
     }
+
+    public String getCnpj() {
+        return cnpj;
+    }
 }

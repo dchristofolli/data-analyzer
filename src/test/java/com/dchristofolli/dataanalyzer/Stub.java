@@ -29,7 +29,7 @@ public class Stub {
             itemList,
             "Pedro",
             0
-            );
+        );
     }
 
     public static Customer customerStub() {
@@ -42,5 +42,14 @@ public class Stub {
 
     public static Salesman salesmanStub() {
         return new Salesman("1234567891234", "Pedro", 50000.0);
+    }
+
+    public static SaleDataOutput saleDataOutputStub() {
+        return new SaleDataOutput(
+            "test.done.dat",
+            1,
+            1,
+            "10",
+            "Pedro");
     }
 }
