@@ -1,7 +1,10 @@
 package com.dchristofolli.dataanalyzer.service;
 
 import com.dchristofolli.dataanalyzer.Stub;
-import com.dchristofolli.dataanalyzer.dto.*;
+import com.dchristofolli.dataanalyzer.dto.Item;
+import com.dchristofolli.dataanalyzer.dto.LineModel;
+import com.dchristofolli.dataanalyzer.dto.LineModelBuilder;
+import com.dchristofolli.dataanalyzer.dto.Sale;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,17 +17,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(SpringExtension.class)
 class AnalyzerTest {
     @InjectMocks
     Analyzer analyzer;
-
-    @Test
-    void analyze() {
-
-    }
 
     @Test
     void shouldRenameFile() {
@@ -39,7 +35,7 @@ class AnalyzerTest {
     @Test
     void worstSalesmanVerifier() {
         String salesman = Stub.salesmanStub().getName();
-        List<LineModel> lineModels = Stub .saleDataInputStub();
+        List<LineModel> lineModels = Stub.saleDataInputStub();
         String salesmanName = analyzer.worstSalesmanVerifier(lineModels);
         Assertions.assertEquals(salesman, salesmanName);
     }
@@ -61,21 +57,21 @@ class AnalyzerTest {
 
     @Test
     void salesmenCounter() {
-        List<LineModel> lineModels = Stub .saleDataInputStub();
+        List<LineModel> lineModels = Stub.saleDataInputStub();
         int salesmenCount = analyzer.salesmenCounter(lineModels);
         Assertions.assertEquals(1, salesmenCount);
     }
 
     @Test
     void customerCounter() {
-        List<LineModel> lineModels = Stub .saleDataInputStub();
+        List<LineModel> lineModels = Stub.saleDataInputStub();
         int customerCount = analyzer.customerCounter(lineModels);
         Assertions.assertEquals(1, customerCount);
     }
 
     @Test
     void getFileName() {
-        List<LineModel> lineModels = Stub .saleDataInputStub();
+        List<LineModel> lineModels = Stub.saleDataInputStub();
         String fileName = analyzer.getFileName(lineModels);
         Assertions.assertEquals("test.done.dat", fileName);
     }

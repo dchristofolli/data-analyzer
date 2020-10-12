@@ -21,7 +21,7 @@ class FileWriterTest {
     FileWriter fileWriter;
 
     @Test
-    void shouldMakeFile_whenSuccessfully() throws IOException {
+    void shouldMakeFileWhenSuccessfully() throws IOException {
         SaleDataOutput data = Stub.saleDataOutputStub();
         var fileOutputStream = new FileOutputStream(String.valueOf(Path.of(homePath,
             "data",
@@ -34,7 +34,7 @@ class FileWriterTest {
     }
 
     @Test
-    void shouldThrowException_whenNotSuccessfully() {
+    void shouldThrowExceptionWhenNotSuccessfully() {
         SaleDataOutput data = Stub.saleDataOutputStub();
         fileWriter.makeFile(data);
         Assertions.assertThrows(

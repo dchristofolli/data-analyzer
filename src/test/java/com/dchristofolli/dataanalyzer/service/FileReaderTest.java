@@ -45,7 +45,7 @@ class FileReaderTest {
 
 
     @Test
-    void findFile_shouldFindFile_whenOk() {
+    void findFileShouldFindFileWhenOk() {
         fileReader.findFile(folder);
         Assertions.assertEquals(1, Arrays.stream(Objects.requireNonNull(folder.listFiles())).count());
     }
@@ -69,7 +69,7 @@ class FileReaderTest {
     }
 
     @Test
-    void readFile_whenSalesmanNameContainsCedilha() {
+    void readFileWhenSalesmanNameContainsCedilha() {
         LineModel lineModel = new LineModel(
             "test.dat",
             new Salesman("1234567891234",

@@ -16,7 +16,7 @@ class EntityMapperTest {
     EntityMapper entityMapper;
 
     @Test
-    void shouldReturnResponseWithSalesman_whenDataTypeEquals001() {
+    void shouldReturnResponseWithSalesmanWhenDataTypeEquals001() {
         String line = "001ç1234567891234çPedroç50000";
         LineModel lineModelResponse = entityMapper.mapToEntity(line);
         Assertions.assertEquals("Pedro", lineModelResponse.getSalesman().getName());
@@ -24,7 +24,7 @@ class EntityMapperTest {
     }
 
     @Test
-    void shouldReturnResponseWithCustomer_whenDataTypeEquals002() {
+    void shouldReturnResponseWithCustomerWhenDataTypeEquals002() {
         String line = "002ç2345675434544345çJose da SilvaçRural";
         LineModel lineModelResponse = entityMapper.mapToEntity(line);
         Assertions.assertEquals("2345675434544345", lineModelResponse.getCustomer().getCnpj());
@@ -32,7 +32,7 @@ class EntityMapperTest {
     }
 
     @Test
-    void shouldReturnResponseWithSale_whenDataTypeEquals003() {
+    void shouldReturnResponseWithSaleWhenDataTypeEquals003() {
         String line = "003ç10ç[1-10-100,2-30-2.50,3-40-3.10]çPedro";
         LineModel lineModelResponse = entityMapper.mapToEntity(line);
         Assertions.assertEquals("10", lineModelResponse.getSale().getId());
@@ -47,7 +47,7 @@ class EntityMapperTest {
     }
 
     @Test
-    void createSale_whenSalesmanNameContainsCedilha() {
+    void createSaleWhenSalesmanNameContainsCedilha() {
         String line = "003ç10ç[1-10-100,2-30-2.50,3-40-3.10]çLourenço";
         Sale sale = entityMapper.createSale(line);
         Assertions.assertEquals("Lourenço", sale.getSalesmanName());
