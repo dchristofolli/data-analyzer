@@ -12,7 +12,6 @@ import java.nio.file.Path;
 @Component
 public class FileWriter {
     private final String homePath = System.getProperty("user.home");
-    private final Logger logger = LoggerFactory.getLogger(FileWriter.class);
 
     public void makeFile(SaleDataOutput data) {
         try {
@@ -23,7 +22,7 @@ public class FileWriter {
             fileOutputStream.write(data.toString().getBytes());
             fileOutputStream.close();
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            e.getSuppressed();
         }
     }
 }

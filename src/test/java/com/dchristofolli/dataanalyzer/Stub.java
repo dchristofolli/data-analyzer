@@ -10,12 +10,11 @@ public class Stub {
     public static List<LineModel> saleDataInputStub() {
         List<LineModel> dataInputList = new ArrayList<>();
         LineModel dataInput = new LineModel(
-            "sample.dat",
+            "test.dat",
             salesmanStub(),
             customerStub(),
             saleStub()
         );
-        dataInput.setFileName("sample.dat");
         dataInputList.add(dataInput);
         return dataInputList;
     }

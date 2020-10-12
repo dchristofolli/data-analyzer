@@ -47,8 +47,8 @@ public class FileReader {
     public List<LineModel> readFile(File file) {
         List<LineModel> lineModels = new ArrayList<>();
         try {
-            List<String> allLines = Files.readAllLines(Paths.get(file.getAbsolutePath()));
-            allLines.parallelStream()
+            Files.readAllLines(Paths.get(file.getAbsolutePath()))
+                .parallelStream()
                 .forEach(line -> lineModels.add(entityMapper.mapToEntity(line)));
         } catch (IOException e) {
             logger.error(e.getMessage());

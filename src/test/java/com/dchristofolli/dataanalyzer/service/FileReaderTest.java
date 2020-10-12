@@ -6,8 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.File;
@@ -18,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@Profile("test")
 @ExtendWith(SpringExtension.class)
 class FileReaderTest {
     @Mock
@@ -26,7 +29,7 @@ class FileReaderTest {
     FileReader fileReader;
 
     String homePath = "./test";
-    List<LineModel> lineModel = Stub.saleDataInputStub();
+    List<LineModel> lineModelList = Stub.saleDataInputStub();
     File folder;
     File file;
     File line;
@@ -49,25 +52,25 @@ class FileReaderTest {
 
     @Test
     void shouldRenameFile() {
-        String replace = file.getName().replace(".dat", ".rd");
-        Assertions.assertFalse(fileReader.renameFile(file));
-        Assertions.assertEquals("test.rd", replace);
+        File file1 = new File("rename.dat");
+        String replace = file1.getName().replace(".dat", ".rd");
+        Assertions.assertFalse(fileReader.renameFile(file1));
+        Assertions.assertEquals("rename.rd", replace);
     }
 
     @Test
     void readFile() {
+        LineModel lineModel = lineModelList.stream().findFirst().get();
+        BDDMockito.when(entityMapper.mapToEntity("001ç1234567891234çPedroç50000"))
+            .thenReturn(lineModel);
         List<LineModel> readFile = fileReader.readFile(file);
-        Assertions.assertEquals(0, readFile.size());
+        Assertions.assertEquals(3, readFile.size());
     }
 
-    @Test
-    void readFile_shouldThrowException_whenFileIsFolder() throws IOException {
-        File structure = new File(homePath);
-        File[] files = structure.listFiles();
-        assert files != null;
-        File file = Arrays.stream(files).findFirst().orElse(structure);
-        fileReader.readFile(structure);
-        Files.readAllLines(file.toPath());
-        Assertions.assertThrows(IOException.class, () -> Files.readAllLines(structure.toPath()));
-    }
+//    @Test
+//    void readFile_shouldThrowException_whenFileIsFolder() throws IOException {
+//        fileReader.readFile(folder);
+//        Files.readAllLines(folder.toPath());
+//        Assertions.assertThrows(IOException.class, () -> Files.readAllLines(folder.toPath()));
+//    }
 }
