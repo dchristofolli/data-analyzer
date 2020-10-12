@@ -3,6 +3,7 @@ package com.dchristofolli.dataanalyzer.service;
 import com.dchristofolli.dataanalyzer.dto.LineModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -17,7 +18,8 @@ import java.util.concurrent.atomic.AtomicReference;
 public class FileReader {
     private final Logger logger = LoggerFactory.getLogger(FileReader.class);
     private final EntityMapper entityMapper;
-    private final String homePath = System.getProperty("user.home");
+    @Value("${path.home}")
+    private String homePath;
 
     public FileReader(EntityMapper entityMapper) {
         this.entityMapper = entityMapper;

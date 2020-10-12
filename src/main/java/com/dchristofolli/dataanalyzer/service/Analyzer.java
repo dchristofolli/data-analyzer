@@ -2,6 +2,7 @@ package com.dchristofolli.dataanalyzer.service;
 
 import com.dchristofolli.dataanalyzer.dto.LineModel;
 import com.dchristofolli.dataanalyzer.dto.SaleDataOutput;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,8 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Analyzer {
     private final FileReader fileReader;
     private final FileWriter fileWriter;
-    private final String homePath = System.getProperty("user.home");
+    @Value("${path.home}")
+    private String homePath;
 
     public Analyzer(FileReader fileReader, FileWriter fileWriter) {
         this.fileReader = fileReader;

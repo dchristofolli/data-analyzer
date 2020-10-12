@@ -1,6 +1,7 @@
 package com.dchristofolli.dataanalyzer.service;
 
 import com.dchristofolli.dataanalyzer.dto.SaleDataOutput;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.FileOutputStream;
@@ -9,7 +10,8 @@ import java.nio.file.Path;
 
 @Component
 public class FileWriter {
-    private final String homePath = System.getProperty("user.home");
+    @Value("${path.home}")
+    private String homePath;
 
     public void makeFile(SaleDataOutput data) {
         try {
