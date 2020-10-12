@@ -3,13 +3,12 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
     id "org.sonarqube" version "3.0"
+//    id 'jacoco'
 }
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "dchristofolli_data-analyzer"
-        property "sonar.organization", "dchristofolli"
-        property "sonar.host.url", "https://sonarcloud.io"
+        property 'sonar.host.url', 'http://localhost:9000'
     }
 }
 
