@@ -3,7 +3,6 @@ package com.dchristofolli.dataanalyzer.service;
 import com.dchristofolli.dataanalyzer.dto.LineModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -18,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class FileReader {
     private final Logger logger = LoggerFactory.getLogger(FileReader.class);
     private final EntityMapper entityMapper;
-private final String homePath = System.getProperty("user.home");
+    private final String homePath = System.getProperty("user.home");
 
     public FileReader(EntityMapper entityMapper) {
         this.entityMapper = entityMapper;
@@ -28,11 +27,14 @@ private final String homePath = System.getProperty("user.home");
         AtomicReference<List<LineModel>> dataInputList = new AtomicReference<>(Collections.emptyList());
         Arrays.stream(Objects.requireNonNull(structure.listFiles()))
             .filter(file -> file.getName().endsWith(".dat"))
-            .findFirst().ifPresent(file -> {
-            dataInputList.set(readFile(file));
-            renameFile(file);
-        });
+            .findFirst().ifPresent(file ->
+            dataInputList.set(getFileFromFolder(file)));
         return dataInputList.get();
+    }
+
+    public List<LineModel> getFileFromFolder(File file) {
+        renameFile(file);
+        return readFile(file);
     }
 
     public boolean renameFile(File file) {

@@ -13,19 +13,19 @@ public class EntityMapper {
         LineModel lineModel = new LineModel();
         String type = dataTypeChecker(line);
         if (type.equals("001")) {
-            lineModel = SaleDataInputBuilder
+            lineModel = LineModelBuilder
                 .aSaleDataInput()
                 .withSalesman(createSalesman(line))
                 .build();
         }
         if (type.equals("002")) {
-            lineModel = SaleDataInputBuilder
+            lineModel = LineModelBuilder
                 .aSaleDataInput()
                 .withCustomer(createCustomer(line))
                 .build();
         }
         if (type.equals("003")) {
-            lineModel = SaleDataInputBuilder
+            lineModel = LineModelBuilder
                 .aSaleDataInput()
                 .withSale(createSale(line))
                 .build();

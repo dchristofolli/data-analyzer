@@ -3,29 +3,29 @@ package com.dchristofolli.dataanalyzer.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class SaleDataInputBuilder {
+public final class LineModelBuilder {
     private Salesman salesman;
     private Customer customer;
     private Sale sale;
 
-    private SaleDataInputBuilder() {
+    private LineModelBuilder() {
     }
 
-    public static SaleDataInputBuilder aSaleDataInput() {
-        return new SaleDataInputBuilder();
+    public static LineModelBuilder aSaleDataInput() {
+        return new LineModelBuilder();
     }
 
-    public SaleDataInputBuilder withSalesman(Salesman salesman) {
+    public LineModelBuilder withSalesman(Salesman salesman) {
         this.salesman = salesman;
         return this;
     }
 
-    public SaleDataInputBuilder withCustomer(Customer customer) {
+    public LineModelBuilder withCustomer(Customer customer) {
         this.customer = customer;
         return this;
     }
 
-    public SaleDataInputBuilder withSale(Sale sale) {
+    public LineModelBuilder withSale(Sale sale) {
         this.sale = sale;
         return this;
     }

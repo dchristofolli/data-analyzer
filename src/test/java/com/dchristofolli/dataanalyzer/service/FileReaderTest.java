@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Profile("test")
 @ExtendWith(SpringExtension.class)
@@ -67,10 +68,19 @@ class FileReaderTest {
         Assertions.assertEquals(3, readFile.size());
     }
 
-//    @Test
-//    void readFile_shouldThrowException_whenFileIsFolder() throws IOException {
-//        fileReader.readFile(folder);
-//        Files.readAllLines(folder.toPath());
-//        Assertions.assertThrows(IOException.class, () -> Files.readAllLines(folder.toPath()));
-//    }
+    @Test
+    void readFile_shouldThrowException_whenFileIsFolder() {
+        fileReader.readFile(folder);
+        Assertions.assertThrows(IOException.class, () -> Files.readAllLines(folder.toPath()));
+    }
+
+    @Test
+    void getFileFromFolder() {
+        AtomicReference<List<LineModel>> lineModels = new AtomicReference<>(Stub.saleDataInputStub());
+        File file1 = new File("rename.dat");
+        List<LineModel> lineModel = fileReader.readFile(file1);
+        lineModels.set(lineModel);
+        List<LineModel> fileFromFolder = fileReader.getFileFromFolder(file1);
+        Assertions.assertEquals(lineModels.get(), fileFromFolder);
+    }
 }
