@@ -2,6 +2,7 @@ package com.dchristofolli.dataanalyzer.service;
 
 import com.dchristofolli.dataanalyzer.Stub;
 import com.dchristofolli.dataanalyzer.dto.LineModel;
+import com.dchristofolli.dataanalyzer.dto.Salesman;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.File;
@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
-@Profile("test")
 @ExtendWith(SpringExtension.class)
 class FileReaderTest {
     @Mock
@@ -66,6 +65,20 @@ class FileReaderTest {
             .thenReturn(lineModel);
         List<LineModel> readFile = fileReader.readFile(file);
         Assertions.assertEquals(3, readFile.size());
+        Assertions.assertEquals("Pedro", lineModel.getSalesman().getName());
+    }
+
+    @Test
+    void readFile_whenSalesmanNameContainsCedilha() {
+        LineModel lineModel = new LineModel(
+            "test.dat",
+            new Salesman("1234567891234",
+                "Lourenço", 5000.0),
+            null, null);
+        BDDMockito.when(entityMapper.mapToEntity("001ç1234567891234çLourençoç50000"))
+            .thenReturn(lineModel);
+        fileReader.readFile(file);
+        Assertions.assertEquals("Lourenço", lineModel.getSalesman().getName());
     }
 
     @Test

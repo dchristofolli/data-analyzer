@@ -1,6 +1,5 @@
 package com.dchristofolli.dataanalyzer.service;
 
-import com.dchristofolli.dataanalyzer.Stub;
 import com.dchristofolli.dataanalyzer.dto.Customer;
 import com.dchristofolli.dataanalyzer.dto.LineModel;
 import com.dchristofolli.dataanalyzer.dto.Sale;
@@ -41,14 +40,6 @@ class EntityMapperTest {
     }
 
     @Test
-    void createCustomer() {
-    }
-
-    @Test
-    void createSalesman() {
-    }
-
-    @Test
     void dataTypeChecker() {
         String line = "001ç1234567891234çPedroç50000";
         String type = entityMapper.dataTypeChecker(line);
@@ -56,6 +47,9 @@ class EntityMapperTest {
     }
 
     @Test
-    void createSale() {
+    void createSale_whenSalesmanNameContainsCedilha() {
+        String line = "003ç10ç[1-10-100,2-30-2.50,3-40-3.10]çLourenço";
+        Sale sale = entityMapper.createSale(line);
+        Assertions.assertEquals("Lourenço", sale.getSalesmanName());
     }
 }

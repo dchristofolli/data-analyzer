@@ -25,12 +25,11 @@ public class SaleDataOutput {
 
     @Override
     public String toString() {
-        return "SaleDataOutput{" +
-            "totalCustomers=" + totalCustomers +
-            ", totalSalesmen=" + totalSalesmen +
-            ", mostExpensiveSale='" + mostExpensiveSale + '\'' +
-            ", worstSalesman=" + worstSalesman +
-            '}';
+        return "Analysis Result:" +
+            "\nCustomers amount: " + totalCustomers +
+            "\nSalesmen amount: " + totalSalesmen +
+            "\nMost expensive sale ID: '" + mostExpensiveSale + '\'' +
+            "\nWorst salesman name: " + worstSalesman;
     }
 
     public String getFileName() {

@@ -1,1 +1,5 @@
-SaleDataOutput{totalCustomers=1, totalSalesmen=1, mostExpensiveSale='10', worstSalesman=Pedro}
+Analysis Result:
+Customers amount: 1
+Salesmen amount: 1
+Most expensive sale ID: '10'
+Worst salesman name: Pedro
