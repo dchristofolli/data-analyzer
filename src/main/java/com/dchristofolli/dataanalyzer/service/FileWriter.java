@@ -10,8 +10,7 @@ import java.nio.file.Path;
 
 @Component
 public class FileWriter {
-    @Value("${path.home}")
-    private String homePath;
+private final String homePath = System.getProperty("user.home");
 
     public void makeFile(SaleDataOutput data) {
         try {

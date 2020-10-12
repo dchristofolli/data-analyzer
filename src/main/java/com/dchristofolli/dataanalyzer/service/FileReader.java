@@ -18,8 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class FileReader {
     private final Logger logger = LoggerFactory.getLogger(FileReader.class);
     private final EntityMapper entityMapper;
-    @Value("${path.home}")
-    private String homePath;
+private final String homePath = System.getProperty("user.home");
 
     public FileReader(EntityMapper entityMapper) {
         this.entityMapper = entityMapper;
