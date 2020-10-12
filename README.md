@@ -57,7 +57,7 @@ java -jar ./build/libs/data-analyzer-1.0.jar.
 Ao ser executado, o sistema irá procurar por arquivos com a extensão .dat 
 no diretório $HOME/data/in (Linux) ou %HOMEPATH%\data\in (Windows).
 Para cada arquivo encontrado, o sistema fará uma análise dos dados, e criará um arquivo com o resultado da análise em 
-$HOME/data/in (Linux) ou %HOMEPATH%\data\in (Windows).
-Os arquivos lidos terão a extensão alterada para .rd
+$HOME/data/out (Linux) ou %HOMEPATH%\data\out (Windows).
+Os arquivos lidos terão a extensão alterada para .rd e permanecerão na pasta in.
 
 
