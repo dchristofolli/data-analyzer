@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SaleDataInput {
+    private String fileName;
     private Salesman salesman;
     private Customer customer;
     private Sale sale;
@@ -39,5 +40,13 @@ public class SaleDataInput {
 
     public void setSale(Sale sale) {
         this.sale = sale;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

@@ -2,47 +2,53 @@ package com.dchristofolli.dataanalyzer.service;
 
 import com.dchristofolli.dataanalyzer.dto.SaleDataInput;
 import com.dchristofolli.dataanalyzer.dto.SaleDataOutput;
-import com.dchristofolli.dataanalyzer.dto.Salesman;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Component
+@EnableScheduling
 public class Analyzer {
     private final FileReader fileReader;
+    private final FileWriter fileWriter;
     private final String homePath = System.getProperty("user.home");
-    private final Logger logger = LoggerFactory.getLogger(Analyzer.class);
 
-    public Analyzer(FileReader fileReader) {
+    public Analyzer(FileReader fileReader, FileWriter fileWriter) {
         this.fileReader = fileReader;
+        this.fileWriter = fileWriter;
     }
 
-    @PostConstruct
-    public SaleDataOutput analyze() {
+    @Scheduled(fixedDelay = 1000)
+    public void analyze() {
         File inputPath = new File(String.valueOf(Path.of(
             homePath,
             "data",
             "in"
         )));
-        List<SaleDataInput> files = fileReader.findFiles(inputPath);
-        int customerCount = customerCounter(files);
-        int salesmenCount = salesmenCounter(files);
-        String expensiveSaleId = expensiveSaleVerifier(files);
-        String worstSalesman = worstSalesmanVerifier(files);
+        List<SaleDataInput> files = fileReader.findFile(inputPath);
         SaleDataOutput saleDataOutput = new SaleDataOutput(
-            customerCount,
-            salesmenCount,
-            expensiveSaleId,
-            worstSalesman
+            getFileName(files),
+            customerCounter(files),
+            salesmenCounter(files),
+            expensiveSaleVerifier(files),
+            worstSalesmanVerifier(files)
         );
-        logger.info(saleDataOutput.toString());
-        return saleDataOutput;
+        fileWriter.makeFile(saleDataOutput);
+    }
+
+    private String getFileName(List<SaleDataInput> files) {
+        AtomicReference<String> fileName = new AtomicReference<>("");
+        files.stream().findFirst()
+            .ifPresent(saleDataInput -> {
+                String file = saleDataInput.getFileName().replace("dat", "done.dat");
+                fileName.set(file);
+            });
+        return fileName.get();
     }
 
     private String worstSalesmanVerifier(List<SaleDataInput> files) {

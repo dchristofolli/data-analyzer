@@ -5,16 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 public class FileReader {
@@ -26,27 +23,25 @@ public class FileReader {
         this.entityMapper = entityMapper;
     }
 
-//    @PostConstruct
-    public void run() {
-        File inputPath = new File(String.valueOf(Path.of(
-            homePath,
-            "data",
-            "in"
-        )));
-        findFiles(inputPath);
+    public List<SaleDataInput> findFile(File structure) {
+        AtomicReference<List<SaleDataInput>> dataInputList = new AtomicReference<>(Collections.emptyList());
+        Arrays.stream(Objects.requireNonNull(structure.listFiles()))
+            .filter(file -> file.getName().endsWith(".dat"))
+            .findFirst().ifPresent(file -> {
+            dataInputList.set(readFile(file));
+            renameFile(file);
+        });
+        return dataInputList.get();
     }
 
-    public List<SaleDataInput> findFiles(File structure) {
-        for (File file : Objects.requireNonNull(structure.listFiles())) {
-            if (file.isDirectory())
-                findFiles(file);
-            else {
-                if (file.getName().endsWith(".dat")) {
-                    return readFile(file);
-                }
-            }
-        }
-        return Collections.emptyList();
+    private boolean renameFile(File file) {
+        File newFile = new File(String.valueOf(Path.of(
+            homePath,
+            "data",
+            "in",
+            file.getName().replace(".dat", ".rd")
+        )));
+        return file.renameTo(newFile);
     }
 
     public List<SaleDataInput> readFile(File file) {
@@ -58,7 +53,7 @@ public class FileReader {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-        saleDataInputs.forEach(saleDataInput -> logger.info(saleDataInput.toString()));
+        saleDataInputs.forEach(saleDataInput -> saleDataInput.setFileName(file.getName()));
         return saleDataInputs;
     }
 }

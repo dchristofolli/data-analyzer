@@ -1,8 +1,6 @@
 package com.dchristofolli.dataanalyzer.service;
 
 import com.dchristofolli.dataanalyzer.dto.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,8 +9,6 @@ import java.util.List;
 
 @Component
 public class EntityMapper {
-    private final Logger logger = LoggerFactory.getLogger(EntityMapper.class);
-
     public SaleDataInput mapToEntity(String line) {
         SaleDataInput saleDataInput = new SaleDataInput();
         String type = dataTypeChecker(line);
@@ -60,7 +56,7 @@ public class EntityMapper {
     public Sale createSale(String line) {
         List<Item> itemList = new ArrayList<>();
         String saleId = line.substring(line.indexOf('ç') + 1, line.indexOf('[') - 1);
-        String salesman = line.substring(line.lastIndexOf('ç') +1 );
+        String salesman = line.substring(line.lastIndexOf('ç') + 1);
         String value = line.substring(line.indexOf('[') + 1, line.lastIndexOf(']'));
         String[] items = value.split(",");
         Arrays.stream(items)
@@ -72,8 +68,6 @@ public class EntityMapper {
             });
         double total = itemList.stream()
             .mapToDouble(item -> item.getQuantity() * item.getPrice()).sum();
-        Sale sale = new Sale(saleId, itemList, salesman, total);
-        logger.info(sale.toString());
-        return sale;
+        return new Sale(saleId, itemList, salesman, total);
     }
 }

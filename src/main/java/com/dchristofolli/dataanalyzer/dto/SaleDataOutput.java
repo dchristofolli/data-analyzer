@@ -5,12 +5,18 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class SaleDataOutput {
+    private final String fileName;
     private final int totalCustomers;
     private final int totalSalesmen;
     private final String mostExpensiveSale;
     private final String worstSalesman;
 
-    public SaleDataOutput(int totalCustomers, int totalSalesmen, String mostExpensiveSale, String worstSalesman) {
+    public SaleDataOutput(String fileName,
+                          int totalCustomers,
+                          int totalSalesmen,
+                          String mostExpensiveSale,
+                          String worstSalesman) {
+        this.fileName = fileName;
         this.totalCustomers = totalCustomers;
         this.totalSalesmen = totalSalesmen;
         this.mostExpensiveSale = mostExpensiveSale;
@@ -25,5 +31,9 @@ public class SaleDataOutput {
             ", mostExpensiveSale='" + mostExpensiveSale + '\'' +
             ", worstSalesman=" + worstSalesman +
             '}';
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 }
