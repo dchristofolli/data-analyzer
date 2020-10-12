@@ -21,6 +21,7 @@ public class FileWriter {
                 "out",
                 data.getFileName())));
             fileOutputStream.write(data.toString().getBytes());
+            fileOutputStream.close();
         } catch (IOException e) {
             logger.error(e.getMessage());
         }

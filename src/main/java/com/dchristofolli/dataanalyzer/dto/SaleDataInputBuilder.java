@@ -30,11 +30,11 @@ public final class SaleDataInputBuilder {
         return this;
     }
 
-    public SaleDataInput build() {
-        SaleDataInput saleDataInput = new SaleDataInput();
-        saleDataInput.setSalesman(salesman);
-        saleDataInput.setCustomer(customer);
-        saleDataInput.setSale(sale);
-        return saleDataInput;
+    public LineModel build() {
+        LineModel lineModel = new LineModel();
+        lineModel.setSalesman(salesman);
+        lineModel.setCustomer(customer);
+        lineModel.setSale(sale);
+        return lineModel;
     }
 }

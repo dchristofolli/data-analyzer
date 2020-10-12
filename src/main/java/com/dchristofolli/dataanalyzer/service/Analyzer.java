@@ -1,6 +1,6 @@
 package com.dchristofolli.dataanalyzer.service;
 
-import com.dchristofolli.dataanalyzer.dto.SaleDataInput;
+import com.dchristofolli.dataanalyzer.dto.LineModel;
 import com.dchristofolli.dataanalyzer.dto.SaleDataOutput;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -30,7 +30,7 @@ public class Analyzer {
             "data",
             "in"
         )));
-        List<SaleDataInput> files = fileReader.findFile(inputPath);
+        List<LineModel> files = fileReader.findFile(inputPath);
         SaleDataOutput saleDataOutput = new SaleDataOutput(
             getFileName(files),
             customerCounter(files),
@@ -41,7 +41,7 @@ public class Analyzer {
         fileWriter.makeFile(saleDataOutput);
     }
 
-    private String getFileName(List<SaleDataInput> files) {
+    private String getFileName(List<LineModel> files) {
         AtomicReference<String> fileName = new AtomicReference<>("");
         files.stream().findFirst()
             .ifPresent(saleDataInput -> {
@@ -51,7 +51,7 @@ public class Analyzer {
         return fileName.get();
     }
 
-    private String worstSalesmanVerifier(List<SaleDataInput> files) {
+    private String worstSalesmanVerifier(List<LineModel> files) {
         AtomicReference<Double> minValue = new AtomicReference<>((double) 0);
         AtomicReference<String> salesmanName = new AtomicReference<>();
         files.stream()
@@ -66,7 +66,7 @@ public class Analyzer {
         return salesmanName.get();
     }
 
-    private String expensiveSaleVerifier(List<SaleDataInput> files) {
+    private String expensiveSaleVerifier(List<LineModel> files) {
         AtomicReference<Double> maxValue = new AtomicReference<>((double) 0);
         AtomicReference<String> id = new AtomicReference<>("");
         files.stream()
@@ -81,13 +81,13 @@ public class Analyzer {
         return id.get();
     }
 
-    private int salesmenCounter(List<SaleDataInput> files) {
+    private int salesmenCounter(List<LineModel> files) {
         return (int) files.stream()
             .filter(saleDataInput -> saleDataInput.getSalesman() != null)
             .count();
     }
 
-    private int customerCounter(List<SaleDataInput> files) {
+    private int customerCounter(List<LineModel> files) {
         return (int) files.stream()
             .filter(saleDataInput -> saleDataInput.getCustomer() != null)
             .count();

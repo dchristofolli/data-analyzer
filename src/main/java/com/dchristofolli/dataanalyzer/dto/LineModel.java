@@ -1,21 +1,19 @@
 package com.dchristofolli.dataanalyzer.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class SaleDataInput {
+public class LineModel {
     private String fileName;
     private Salesman salesman;
     private Customer customer;
     private Sale sale;
 
-    @Override
-    public String toString() {
-        return "SaleDataInput{" +
-            "salesman=" + salesman +
-            ", customer=" + customer +
-            ", sale=" + sale +
-            '}';
+    public LineModel() {
+    }
+
+    public LineModel(String fileName, Salesman salesman, Customer customer, Sale sale) {
+        this.fileName = fileName;
+        this.salesman = salesman;
+        this.customer = customer;
+        this.sale = sale;
     }
 
     public Salesman getSalesman() {

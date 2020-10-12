@@ -1,6 +1,6 @@
 package com.dchristofolli.dataanalyzer.service;
 
-import com.dchristofolli.dataanalyzer.dto.SaleDataInput;
+import com.dchristofolli.dataanalyzer.dto.LineModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -23,8 +23,8 @@ public class FileReader {
         this.entityMapper = entityMapper;
     }
 
-    public List<SaleDataInput> findFile(File structure) {
-        AtomicReference<List<SaleDataInput>> dataInputList = new AtomicReference<>(Collections.emptyList());
+    public List<LineModel> findFile(File structure) {
+        AtomicReference<List<LineModel>> dataInputList = new AtomicReference<>(Collections.emptyList());
         Arrays.stream(Objects.requireNonNull(structure.listFiles()))
             .filter(file -> file.getName().endsWith(".dat"))
             .findFirst().ifPresent(file -> {
@@ -34,7 +34,7 @@ public class FileReader {
         return dataInputList.get();
     }
 
-    private boolean renameFile(File file) {
+    public boolean renameFile(File file) {
         File newFile = new File(String.valueOf(Path.of(
             homePath,
             "data",
@@ -44,16 +44,22 @@ public class FileReader {
         return file.renameTo(newFile);
     }
 
-    public List<SaleDataInput> readFile(File file) {
-        List<SaleDataInput> saleDataInputs = new ArrayList<>();
+    public List<LineModel> readFile(File file) {
+        List<LineModel> lineModels = new ArrayList<>();
         try {
             List<String> allLines = Files.readAllLines(Paths.get(file.getAbsolutePath()));
             allLines.parallelStream()
-                .forEach(line -> saleDataInputs.add(entityMapper.mapToEntity(line)));
+                .forEach(line -> lineModels.add(entityMapper.mapToEntity(line)));
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-        saleDataInputs.forEach(saleDataInput -> saleDataInput.setFileName(file.getName()));
-        return saleDataInputs;
+        setFileName(file, lineModels);
+        return lineModels;
+    }
+
+    public void setFileName(File file, List<LineModel> lineModels) {
+        lineModels.stream()
+            .filter(Objects::nonNull)
+            .forEach(saleDataInput -> saleDataInput.setFileName(file.getName()));
     }
 }

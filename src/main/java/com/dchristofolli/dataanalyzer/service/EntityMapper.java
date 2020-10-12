@@ -9,28 +9,28 @@ import java.util.List;
 
 @Component
 public class EntityMapper {
-    public SaleDataInput mapToEntity(String line) {
-        SaleDataInput saleDataInput = new SaleDataInput();
+    public LineModel mapToEntity(String line) {
+        LineModel lineModel = new LineModel();
         String type = dataTypeChecker(line);
         if (type.equals("001")) {
-            saleDataInput = SaleDataInputBuilder
+            lineModel = SaleDataInputBuilder
                 .aSaleDataInput()
                 .withSalesman(createSalesman(line))
                 .build();
         }
         if (type.equals("002")) {
-            saleDataInput = SaleDataInputBuilder
+            lineModel = SaleDataInputBuilder
                 .aSaleDataInput()
                 .withCustomer(createCustomer(line))
                 .build();
         }
         if (type.equals("003")) {
-            saleDataInput = SaleDataInputBuilder
+            lineModel = SaleDataInputBuilder
                 .aSaleDataInput()
                 .withSale(createSale(line))
                 .build();
         }
-        return saleDataInput;
+        return lineModel;
     }
 
     public Customer createCustomer(String line) {
