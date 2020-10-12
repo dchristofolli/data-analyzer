@@ -45,9 +45,6 @@ Para esse projeto, foram utilizadas as seguintes tecnologias:
 * Java 11: Linguagem utilizada no projeto;
 * Spring: Inicialização da API e injeção de dependências;
 * Gradle: Automação do build e gestão de dependências;
-* Swagger: Documentação interativa da API;
-* MongoDB: Banco de dados não relacional para a persistência dos dados;
-* Docker: Administração de containers
 
 #### Requerimentos
 Para executar o sistema, é necessário ter Java 11.
