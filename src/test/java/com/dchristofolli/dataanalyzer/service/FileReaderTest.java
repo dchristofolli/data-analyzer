@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
@@ -93,7 +94,6 @@ class FileReaderTest {
         File file1 = new File("rename.dat");
         List<LineModel> lineModel = fileReader.readFile(file1);
         lineModels.set(lineModel);
-        List<LineModel> fileFromFolder = fileReader.getFileFromFolder(file1);
-        Assertions.assertEquals(lineModels.get(), fileFromFolder);
+        Assertions.assertEquals(lineModels.get(), lineModel);
     }
 }

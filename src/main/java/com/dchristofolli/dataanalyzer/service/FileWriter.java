@@ -13,7 +13,7 @@ public class FileWriter {
 
     public void makeFile(SaleDataOutput data) {
         try {
-            try (FileOutputStream fileOutputStream = new FileOutputStream(
+            try (var fileOutputStream = new FileOutputStream(
                 String.valueOf(Path.of(
                     homePath,
                     "data",

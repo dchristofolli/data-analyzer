@@ -26,16 +26,13 @@ public class FileReader {
     public List<LineModel> findFile(File structure) {
         AtomicReference<List<LineModel>> dataInputList = new AtomicReference<>(Collections.emptyList());
         Arrays.stream(Objects.requireNonNull(structure.listFiles()))
+            .filter(Objects::nonNull)
             .filter(file -> file.getName().endsWith(".dat"))
             .findFirst().ifPresent(file -> {
-            dataInputList.set(getFileFromFolder(file));
+            dataInputList.set(readFile(file));
             renameFile(file);
         });
         return dataInputList.get();
-    }
-
-    public List<LineModel> getFileFromFolder(File file) {
-        return readFile(file);
     }
 
     public boolean renameFile(File file) {
