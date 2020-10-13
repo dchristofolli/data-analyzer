@@ -38,7 +38,6 @@ class FileWriterTest {
         SaleDataOutput data = Stub.saleDataOutputStub();
         fileWriter.makeFile(data);
         Assertions.assertThrows(
-            IOException.class,
-            () -> new FileOutputStream(String.valueOf(Path.of(homePath))));
+            IOException.class, () -> new FileOutputStream(homePath));
     }
 }

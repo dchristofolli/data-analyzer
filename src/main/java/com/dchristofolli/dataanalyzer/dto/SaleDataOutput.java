@@ -1,9 +1,5 @@
 package com.dchristofolli.dataanalyzer.dto;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class SaleDataOutput {
     private final String fileName;
     private final int totalCustomers;

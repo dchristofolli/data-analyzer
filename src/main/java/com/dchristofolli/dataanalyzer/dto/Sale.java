@@ -1,10 +1,7 @@
 package com.dchristofolli.dataanalyzer.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Sale {
     private final String id;
     private final List<Item> items;

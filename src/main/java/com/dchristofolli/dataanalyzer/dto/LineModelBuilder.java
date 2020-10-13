@@ -1,8 +1,5 @@
 package com.dchristofolli.dataanalyzer.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public final class LineModelBuilder {
     private Salesman salesman;
     private Customer customer;

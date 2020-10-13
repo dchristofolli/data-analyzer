@@ -1,8 +1,5 @@
 package com.dchristofolli.dataanalyzer.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Customer {
     private final String cnpj;
     private final String name;

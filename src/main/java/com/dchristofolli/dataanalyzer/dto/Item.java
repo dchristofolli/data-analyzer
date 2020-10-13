@@ -1,8 +1,5 @@
 package com.dchristofolli.dataanalyzer.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Item {
     private final String id;
     private final int quantity;
